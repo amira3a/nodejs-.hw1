@@ -37,24 +37,42 @@ const addContact = async (body) => {
 };
 
 async function getContactById(id) {
-  const data = await read; 
+  const data = await  getAllContacts(); 
   const singleContact = data.find(item => item.id === id); 
   
     if (singleContact) {
        console.log(singleContact)
         return singleContact
     } else {
-        console.log('No user with that id');
+      console.log('No user with that id');
+      return null;
     }
 }
 
 async function removeContact(id) {
-  const data = await read; 
+  const data = await getAllContacts(); 
     const newData = data.filter(item => item.id !== id);
-    fs.writeFile(path, JSON.stringify(newData));
+    await fs.writeFile(filePath, JSON.stringify(newData));
     console.log('Contact deleted');
     return newData;
 }
+
+async function updateContact (id, body) {
+  const { name, email, phone } = body;
+    const data = await getAllContacts()
+    const findContact = data.find(item => item.id === id)
+    if (findContact === -1) {
+      const message = `Not Found`;
+      return { message };
+    } else {
+      data[findContact] = { ...data[findContact], name, email, phone }
+      await fs.writeFile(filePath, JSON.stringify(data));
+      const updateContact = data[findContact];
+      return updateContact ;
+    }
+    
+  }
+  
 
 // Export the 'getAllContacts' and 'addContact' functions to be used in 'routes/api/contacts.js'.
 module.exports = {
@@ -62,5 +80,6 @@ module.exports = {
   addContact,
   getContactById,
   removeContact,
+  updateContact,
 
 };

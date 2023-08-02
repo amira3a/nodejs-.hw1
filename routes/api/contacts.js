@@ -20,8 +20,10 @@ router.get("/", ctrlWrapper(ctrl.getAllContacts));
 // Middleware: 'ctrlWrapper' will handle any errors that may occur during the controller function execution.
 router.post("/", ctrlWrapper(ctrl.addContact));
 
-router.put('/:id', ctrlWrapper(ctrl.getContactById));
+router.get('/:id', ctrlWrapper(ctrl.getContactById));
 
 router.delete('/:id', ctrlWrapper(ctrl.removeContact));
+
+router.put('/:id', ctrlWrapper(ctrl.updateContact));
 // Export the router to be used in 'app.js'.
 module.exports = router;
