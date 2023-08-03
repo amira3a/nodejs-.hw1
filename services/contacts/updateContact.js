@@ -1,10 +1,10 @@
 const contactsOperations = require("../../models/contacts");
 
 
-const updateContact = async (body) => {
+const updateContact = async (id, body) => {
   try {
     
-    const data = await contactsOperations.updateContact(body);
+    const data = await contactsOperations.updateContact(id, body);
     
     return data;
   } catch (err) {
@@ -13,5 +13,5 @@ const updateContact = async (body) => {
   }
 };
 
-// Export the 'addContact' service function to be used in 'controllers/contacts/addContact.js'.
+// Export the 'updateContact' service function to be used in 'controllers/contacts/addContact.js'.
 module.exports = updateContact;

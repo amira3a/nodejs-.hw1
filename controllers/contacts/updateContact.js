@@ -1,24 +1,33 @@
 const createError = require("http-errors");
 const { contactSchema } = require("../../schemas");
-const { contacts: service, contacts } = require("../../services");
+const { contacts: service} = require("../../services");
 
 
-const updateContact= async (req, res, next) => {
-  
-  
-  // If the request body is valid, call the 'getContactById' function from the 'service' module to add the new contact.
-  
+const updateContact= async (req, res) => {
+   
+
+
+  const { error } = contactSchema.validate(req.body);
+  if (error) {
+    throw createError(400, "missing fields");
+  }
+
   const { id } = req.params;
-  const { name, email, phone } = await service.updateContact(req.body);
-  const [contact] = contacts.filter(item => item.id === id);
-  contact.name = name;
-  contact.email = email;
-  contact.phone = phone;
+  
+  const result = await service.updateContact(id, req.body);
+   if (!result) {
+    throw createError(404, "not found");
+  }
+
+
+
+
+  
   res.json({
     status: 'success',
     code: 200,
     data: {
-      contact,
+       result,
     }
   });
 };

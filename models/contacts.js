@@ -61,9 +61,10 @@ async function updateContact (id, body) {
   const { name, email, phone } = body;
     const data = await getAllContacts()
     const findContact = data.find(item => item.id === id)
-    if (findContact === -1) {
+    if (!findContact) {
       const message = `Not Found`;
-      return { message };
+      console.log(message);
+      return  message ;
     } else {
       data[findContact] = { ...data[findContact], name, email, phone }
       await fs.writeFile(filePath, JSON.stringify(data));

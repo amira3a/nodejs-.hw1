@@ -2,10 +2,10 @@
 const contactsOperations = require("../../models/contacts");
 
 // Service function for remove contact .
-const removeContact = async (body) => {
+const removeContact = async (id) => {
   try {
     // Call the 'removeContact' function from 'contactsOperations' to add the new contact.
-    const data = await contactsOperations.removeContact(body);
+    const data = await contactsOperations.removeContact(id);
     
     return data;
   } catch (err) {
@@ -14,5 +14,5 @@ const removeContact = async (body) => {
   }
 };
 
-// Export the 'addContact' service function to be used in 'controllers/contacts/addContact.js'.
+// Export the 'removeContact' service function to be used in 'controllers/contacts/addContact.js'.
 module.exports = removeContact;

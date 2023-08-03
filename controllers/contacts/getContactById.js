@@ -3,26 +3,22 @@
 // and 'service' from '../services' for interacting with the data model.
 
 const createError = require("http-errors");
-const { contactSchema } = require("../../schemas");
 const { contacts: service } = require("../../services");
 
 // Controller function for get contact by id.
 const getContactById = async (req, res) => {
-  // Validate the request body against the 'contactSchema'.
-  const { error } = contactSchema.validate(req.body);
-
-  // If there's an error in the validation result, throw a custom 400 (Bad Request) error.
-  if (error) {
-    throw createError(400, "Missing required field");
-  }
+  const { id } = req.params;
 
   // If the request body is valid, call the 'getContactById' function from the 'service' module to add the new contact.
-  const result = await service.getContactById(req.body);
-
+  const result = await service.getContactById(id);
   
-  res.status(201).json({
+  if (!result) {
+    throw createError(404, `Not found`);
+  }
+  
+  res.json({
     status: "success",
-    code: 201,
+    code: 200,
     data: {
       result,
     },
