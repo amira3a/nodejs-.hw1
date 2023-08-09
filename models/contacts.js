@@ -51,10 +51,17 @@ async function getContactById(id) {
 
 async function removeContact(id) {
   const data = await getAllContacts(); 
+    const findContact = data.find(item => item.id === id)
+    if (!findContact) {
+      const message = `Not Found`;
+      console.log(message);
+      return message;
+      }else {
     const newData = data.filter(item => item.id !== id);
     await fs.writeFile(filePath, JSON.stringify(newData));
     console.log('Contact deleted');
     return newData;
+  } 
 }
 
 async function updateContact (id, body) {
