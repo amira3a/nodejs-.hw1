@@ -3,7 +3,7 @@ const ContactSchema  = require("../models/contacts");
 
 
 async function getAllContacts() {
-  const allContacts = await ContactSchema.find({});
+  const allContacts = await ContactSchema.find();
   console.log(allContacts);
   return allContacts;
 }
@@ -16,7 +16,7 @@ async function getAllContacts() {
 };
 
  async function getContactById(_id) {
-  const singleContact = await ContactSchema.findOne( {_id:{_id}} ); 
+  const singleContact = await ContactSchema.findOne(_id); 
   
      if (singleContact) {
         console.log(singleContact)
@@ -28,13 +28,13 @@ async function getAllContacts() {
  }
 
  async function removeContact(_id) {
-   await ContactSchema.findOneAndDelete({ _id:{_id}});
+   await ContactSchema.findOneAndDelete(_id);
    return ('Contact deleted');
  }
 
  async function updateContact (_id, body) {
     const updatedContact = await ContactSchema.findOneAndUpdate(
-        { _id:{_id} },
+        { _id },
         { $set: body }, 
         { new: true },
    );
@@ -44,7 +44,7 @@ async function getAllContacts() {
   
   async function updateStatusContact (_id, body) {
    const  favorite  = await ContactSchema.findOneAndUpdate(
-        { _id:{_id} },
+        { _id },
         { $set: body }, 
         { new: true },
    );
