@@ -1,5 +1,5 @@
 // Import required modules: 'http-errors' for creating custom HTTP errors,
-// 'contactSchema' from '../schemas' for data validation,
+
 // and 'service' from '../services' for interacting with the data model.
 
 const createError = require("http-errors");
@@ -7,10 +7,10 @@ const { contacts: service } = require("../../services");
 
 // Controller function for get contact by id.
 const getContactById = async (req, res) => {
-  const { id } = req.params;
+  const { _id } = req.params;
 
   // If the request body is valid, call the 'getContactById' function from the 'service' module to add the new contact.
-  const result = await service.getContactById(id);
+  const result = await service.getContactById(_id);
   
   if (!result) {
     throw createError(404, `Not found`);

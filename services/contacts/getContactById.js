@@ -1,5 +1,5 @@
 // Import the 'contactsOperations' from '../../models/contacts'.
-const contactsOperations = require("../../models/contacts");
+const contactsOperations = require("../../controllers/contacts");
 
 // Service function for get contact by id.
 const getContactById = async (body) => {

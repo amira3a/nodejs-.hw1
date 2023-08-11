@@ -1,5 +1,5 @@
 // Import required modules: 'http-errors' for creating custom HTTP errors,
-// 'contactSchema' from '../schemas' for data validation,
+
 // and 'service' from '../services' for interacting with the data model.
 
 const createError = require("http-errors");
@@ -7,8 +7,8 @@ const { contacts: service } = require("../../services");
 
 // Controller function for remove contact.
 const removeContact = async (req, res) => {
-  const { id } = req.params;
-  const result = await service.removeContact(id);
+  const { _id } = req.params;
+  const result = await service.removeContact(_id);
   if (!result) {
     throw createError(404, "not found");
   }

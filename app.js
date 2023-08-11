@@ -2,7 +2,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-
+require('dotenv').config();
 // Import the 'contactsRouter' module from './routes/api/contacts' to handle contact-related API routes.
 const contactsRouter = require("./routes/api/contacts");
 

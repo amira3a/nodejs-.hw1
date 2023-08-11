@@ -4,6 +4,7 @@ const addContact = require("./addContact");
 const getContactById = require("./getContactById");
 const removeContact = require("./removeContact");
 const updateContact = require("./updateContact");
+const updateStatusContact = require("./updateStatusContact");
 
 // Export an object containing the imported controller functions.
 module.exports = {
@@ -12,4 +13,5 @@ module.exports = {
   getContactById,
   removeContact,
   updateContact,
+  updateStatusContact,
 };

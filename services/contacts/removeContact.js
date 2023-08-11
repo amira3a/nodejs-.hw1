@@ -1,11 +1,11 @@
 // Import the 'contactsOperations' from '../../models/contacts'.
-const contactsOperations = require("../../models/contacts");
+const contactsOperations = require("../../controllers/contacts");
 
 // Service function for remove contact .
-const removeContact = async (id) => {
+const removeContact = async (_id) => {
   try {
     // Call the 'removeContact' function from 'contactsOperations' to add the new contact.
-    const data = await contactsOperations.removeContact(id);
+    const data = await contactsOperations.removeContact(_id);
     
     return data;
   } catch (err) {

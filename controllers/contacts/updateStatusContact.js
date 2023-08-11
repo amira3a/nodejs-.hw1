@@ -1,9 +1,9 @@
 const createError = require("http-errors");
-const ContactSchema = require("../../models/contacts");
-const { contacts: service } = require("../../services");
+const  ContactSchema  = require("../../models/contacts");
+const { contacts: service} = require("../../services");
 
 
-const updateContact= async (req, res) => {
+const updateStatusContact= async (req, res) => {
    
 
 
@@ -14,16 +14,11 @@ const updateContact= async (req, res) => {
 
   const { _id } = req.params;
   
-  const result = await service.updateContact(_id, req.body);
+  const result = await service.updateStatusContact(_id, req.body);
    if (!result) {
     throw createError(404, "not found");
-  }
-
-
-
-
-  
-  res.json({
+    }
+    res.json({
     status: 'success',
     code: 200,
     data: {
@@ -33,4 +28,4 @@ const updateContact= async (req, res) => {
 };
 
 
-module.exports = updateContact;
+module.exports = updateStatusContact;

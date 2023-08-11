@@ -1,15 +1,13 @@
-// Import required modules: 'http-errors' for creating custom HTTP errors,
-// 'contactSchema' from '../schemas' for data validation,
-// and 'service' from '../services' for interacting with the data model.
+
 
 const createError = require("http-errors");
-const { contactSchema } = require("../../schemas");
+const  ContactSchema  = require("../../models/contacts");
 const { contacts: service } = require("../../services");
 
 // Controller function for adding a new contact.
 const addContact = async (req, res) => {
-  // Validate the request body against the 'contactSchema'.
-  const { error } = contactSchema.validate(req.body);
+  // Validate the request body against the 'ContactSchema'.
+  const { error } = ContactSchema.validate(req.body);
 
   // If there's an error in the validation result, throw a custom 400 (Bad Request) error.
   if (error) {
