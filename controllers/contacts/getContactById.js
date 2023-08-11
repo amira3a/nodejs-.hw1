@@ -7,10 +7,10 @@ const { contacts: service } = require("../../services");
 
 // Controller function for get contact by id.
 const getContactById = async (req, res) => {
-  const { _id } = req.params;
+  
 
   // If the request body is valid, call the 'getContactById' function from the 'service' module to add the new contact.
-  const result = await service.getContactById(_id);
+  const result = await service.getContactById(req);
   
   if (!result) {
     throw createError(404, `Not found`);

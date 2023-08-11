@@ -26,6 +26,6 @@ router.delete('/:id', ctrlWrapper(ctrl.removeContact));
 
 router.put('/:id', ctrlWrapper(ctrl.updateContact));
 
-router.patch(':id/favorite', ctrlWrapper(ctrl.updateStatusContact))
+router.patch('/:id/favorite', ctrlWrapper(ctrl.updateStatusContact))
 // Export the router to be used in 'app.js'.
 module.exports = router;

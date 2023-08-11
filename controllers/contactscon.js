@@ -1,4 +1,5 @@
 
+
 const ContactSchema  = require("../models/contacts");
 
 
@@ -15,8 +16,8 @@ async function getAllContacts() {
   return newContact;
 };
 
- async function getContactById(_id) {
-  const singleContact = await ContactSchema.findOne(_id); 
+ async function getContactById(req) {
+  const singleContact = await ContactSchema.findById({_id:req.params.id}); 
   
      if (singleContact) {
         console.log(singleContact)
@@ -27,14 +28,14 @@ async function getAllContacts() {
     }
  }
 
- async function removeContact(_id) {
-   await ContactSchema.findOneAndDelete(_id);
+ async function removeContact(req) {
+   await ContactSchema.findByIdAndDelete({_id:req.params.id});
    return ('Contact deleted');
  }
 
- async function updateContact (_id, body) {
+ async function updateContact (req, body) {
     const updatedContact = await ContactSchema.findOneAndUpdate(
-        { _id },
+        { _id:req.params.id },
         { $set: body }, 
         { new: true },
    );
@@ -42,9 +43,9 @@ async function getAllContacts() {
 
    }
   
-  async function updateStatusContact (_id, body) {
+  async function updateStatusContact (req, body) {
    const  favorite  = await ContactSchema.findOneAndUpdate(
-        { _id },
+        { _id:req.params.id },
         { $set: body }, 
         { new: true },
    );

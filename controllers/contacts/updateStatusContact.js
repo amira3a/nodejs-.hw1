@@ -12,9 +12,9 @@ const updateStatusContact= async (req, res) => {
     throw createError(400, "missing fields");
   }
 
-  const { _id } = req.params;
   
-  const result = await service.updateStatusContact(_id, req.body);
+  
+  const result = await service.updateStatusContact(req, req.body);
    if (!result) {
     throw createError(404, "not found");
     }

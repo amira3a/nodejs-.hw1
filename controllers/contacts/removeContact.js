@@ -7,8 +7,8 @@ const { contacts: service } = require("../../services");
 
 // Controller function for remove contact.
 const removeContact = async (req, res) => {
-  const { _id } = req.params;
-  const result = await service.removeContact(_id);
+  
+  const result = await service.removeContact(req);
   if (!result) {
     throw createError(404, "not found");
   }
