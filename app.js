@@ -5,7 +5,7 @@ const cors = require("cors");
 require('dotenv').config();
 // Import the 'contactsRouter' module from './routes/api/contacts' to handle contact-related API routes.
 const contactsRouter = require("./routes/api/contacts");
-
+const usersRouter = require("./routes/api/users")
 // Create an instance of the Express application.
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(express.json());
 
 // Mount the 'contactsRouter' for all requests starting with '/api/contacts'.
 app.use("/api/contacts", contactsRouter);
-
+app.use("/api/users", usersRouter);
 // Middleware for handling routes that are not found (404 Not Found).
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
