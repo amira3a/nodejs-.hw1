@@ -1,11 +1,11 @@
 const auth = (req, res, next) => {
-  //   const user = user.findOne({ email: req.body.email });
+  //  const user = user.findOne({ email: req.body.email });
   //   if (!user.token) {
   //     res.json({ message: 'asjkhdakjsd' });
   //   } else {
   //     next();
   //   }
-  if (!req.session) {
+  if (!req.sission) {
      res.status(401).json({
       status: "Unathorized",
       code: 401,

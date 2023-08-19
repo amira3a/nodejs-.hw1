@@ -4,8 +4,17 @@ const app = require('./app'); // Express application
 const express = require('express');
 const session = require('express-session');
 // Destructure environment variables, providing a default value for PORT if not provided
-const { DB_HOST, PORT = 3000 } = process.env;
+const { DB_HOST, PORT = 3000, JWT_SECRET } = process.env;
 
+if (!JWT_SECRET) {
+  console.error("JWT_SECRET not defined in environment variables.");
+  process.exit(1);
+}
+
+if (!DB_HOST) {
+  console.error("DB_HOST not defined in environment variables.");
+  process.exit(1);
+}
 
 const sess = {
   secret: process.env.JWT_SECRET,
@@ -18,20 +27,24 @@ const sess = {
   resave: false,
   saveUninitialized: true,
 };
-app.use(session(sess));
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-// Connect to MongoDB using the provided DB_HOST
-mongoose.connect(DB_HOST)
-  .then(() => {
-    // If the connection is successful, start the Express app to listen on the specified PORT
-    app.listen(PORT, () => {
-      console.log("Database connection successful"); // Log success message to the console
-    });
-  })
-  .catch(error => {
-    // If an error occurs during the connection, handle the error here
-    console.log(error.message); // Log the error message to the console
-    process.exit(1); // Exit the Node.js process with an error code (1) to indicate failure
-  });
 
+
+const startServer = async () => {
+  try {
+    await mongoose.connect(DB_HOST);
+    console.log("Database connection successful");
+
+    app.use(session(sess));
+    app.use(express.urlencoded({ extended: false }));
+    app.use(express.json());
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Error connecting to the database:", error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
