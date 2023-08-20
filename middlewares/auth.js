@@ -5,7 +5,7 @@ const auth = (req, res, next) => {
   //   } else {
   //     next();
   //   }
-  if (!req.sission) {
+  if (!req.sission.userToken) {
      res.status(401).json({
       status: "Unathorized",
       code: 401,

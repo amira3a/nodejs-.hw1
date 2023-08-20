@@ -20,8 +20,9 @@ const jwt = require('jsonwebtoken');
         password: hashed,
         token: token,
       });
-      req.session = token;
-      console.log(req.session);
+      req.session.userToken = token;
+      req.session.userId = newUser._id;
+      console.log(req.session.userToken);
       return({email:email, subscription:"starter"});
     } catch (err) {
       console.log(err);
@@ -43,11 +44,10 @@ const jwt = require('jsonwebtoken');
       const token = jwt.sign({ email }, process.env.JWT_SECRET, {
         expiresIn: '1h',
       });
-      singleUser.token = token;
+      req.session.userToken = token;
+      req.session.userId = singleUser._id;
       await singleUser.save();
-      req.session = token;
       return ({
-  token: token,
   "user": {
     email: email,
     subscription: "starter",
@@ -64,19 +64,27 @@ async function logout(req) {
   //   { email: req.body.email },
   //   { $set: { token: null } }
   // );
-if (req.session) {
-      req.session.destroy(() => {
-        console.log({ message: 'User was signed out' });
-      });
-    } else {
-      console.log({ message: 'You are already signed out' });
-    }
-
+// if (req.session) {
+//       req.session.destroy(() => {
+//         console.log({ message: 'User was signed out' });
+//       });
+//     } else {
+//       console.log({ message: 'You are already signed out' });
+//     }
+  try {
+     const { email } = req.body;
+    const singleUser = await User.findOne({ email: email });
+    req.session.userId = singleUser._id;
+  const userLoggedIn = await User.findById(singleUser._id) !== null;
+    return userLoggedIn;
+  } catch (err) {
+    console.log(err);
+  };
 }
 
 async function currentUser(req) {
   try {
-    const currentUser = await User.findById(req.session);
+    const currentUser = await User.findById(req.session.userId);
     if (currentUser === null) {
       return 'Not Authorized'
     }
