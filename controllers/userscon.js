@@ -22,7 +22,6 @@ const jwt = require('jsonwebtoken');
       });
       req.session.userToken = token;
       req.session.userId = newUser._id;
-      console.log(req.session.userToken);
       return({email:email, subscription:"starter"});
     } catch (err) {
       console.log(err);
@@ -46,6 +45,7 @@ const jwt = require('jsonwebtoken');
       });
       req.session.userToken = token;
       req.session.userId = singleUser._id;
+      singleUser.token = token; // Update the user's token
       await singleUser.save();
       return ({
   "user": {
@@ -74,9 +74,15 @@ async function logout(req) {
   try {
      const { email } = req.body;
     const singleUser = await User.findOne({ email: email });
-    req.session.userId = singleUser._id;
-  const userLoggedIn = await User.findById(singleUser._id) !== null;
-    return userLoggedIn;
+     if (!singleUser) {
+      return false; // Return false if user not found
+    }
+    req.session.destroy((err) => {
+      if (err) {
+        console.log("Error destroying session:", err);
+      }
+    }); // Destroy the session
+    return true; // Return true for successful logout
   } catch (err) {
     console.log(err);
   };
@@ -88,7 +94,8 @@ async function currentUser(req) {
     if (currentUser === null) {
       return 'Not Authorized'
     }
-    return currentUser;
+    const { email } = req.body; 
+    return ({email:email});
   }catch (err) {
       console.log(err);
       

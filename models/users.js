@@ -29,14 +29,14 @@ usersSchema.methods.checkPassword = async function (loginPW) {
   return bcrypt.compare(loginPW, this.password)
 }
 
-const oneUserSchema = new Schema({
-  owner: {
-      type: Schema.Types.ObjectId,
-      ref: 'user',
-        }
-})
+// const oneUserSchema = new Schema({
+//   owner: {
+//       type: Schema.Types.ObjectId,
+//       ref: 'user',
+//         },
+// });
 
 
-const UserSchema = model('users', usersSchema);
+const User = model('users', usersSchema);
 
-module.exports = UserSchema, oneUserSchema;
+module.exports = User;

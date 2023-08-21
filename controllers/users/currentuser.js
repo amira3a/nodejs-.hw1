@@ -2,10 +2,10 @@ const { users: service } = require("../../services");
 
 const currentUser = async (req, res) => {
 
-const { error } = UserSchema.validate(req.body);
-  if (error) {
-    throw createError(400);
-  }
+// const { error } = User.validate(req.body);
+//   if (error) {
+//     throw createError(400);
+//   }
 
   const result = await service.currentUser(req);
   if (!result) {

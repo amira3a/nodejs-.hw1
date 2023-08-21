@@ -7,7 +7,7 @@ const oneUserSchema = require("../../models/users");
 
 router.post('/login',  ctrlWrapper( ctrl.login));
 router.post('/signup', validation(oneUserSchema), ctrlWrapper(ctrl.signup));
-router.post('/logout', auth, ctrlWrapper(ctrl.logout));
-router.post('/current', auth, ctrlWrapper(ctrl.currentUser));
+router.post('/logout',  ctrlWrapper(ctrl.logout));
+router.post('/current', ctrlWrapper(ctrl.currentUser));
 
 module.exports = router;
