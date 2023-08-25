@@ -1,15 +1,15 @@
 const createError = require("http-errors");
-const  UserSchema  = require("../../models/users");
+//const  UserSchema  = require("../../models/users");
 const { users: service } = require("../../services");
 
 const signup = async (req, res) => {
   
-  const { error } = UserSchema.validate(req.body);
+  // const { error } = UserSchema.validate(req.body);
 
   
-  if (error) {
-    throw createError(400, "Missing required field");
-  }
+  // if (error) {
+  //   throw createError(400, "Missing required field");
+  // }
 
   
   const result = await service.signup(req);

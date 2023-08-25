@@ -1,10 +1,10 @@
 const usersOperations = require("../../controllers/userscon");
 
 
-const userAvatar = async (file) => {
+const userAvatar = async (body, file) => {
   try {
     
-    const data = await usersOperations.userAvatar(file);
+    const data = await usersOperations.userAvatar(body, file);
     
     return data;
   } catch (err) {

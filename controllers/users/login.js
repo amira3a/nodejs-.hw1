@@ -1,13 +1,13 @@
 const createError = require("http-errors");
-const  UserSchema  = require("../../models/users");
+//const  UserSchema  = require("../../models/users");
 const { users: service } = require("../../services");
 
 const login = async (req, res) => {
   
-  const { error } = UserSchema.validate(req.body);
-  if (error) {
-    throw createError(400);
-  }
+  // const { error } = UserSchema.validate(req.body);
+  // if (error) {
+  //   throw createError(400);
+  // }
 
   
   const result = await service.login(req);
