@@ -12,6 +12,8 @@ router.post('/signup', ctrlWrapper(ctrl.signup));
 router.post('/logout',  ctrlWrapper(ctrl.logout));
 router.post('/current', ctrlWrapper(ctrl.currentUser));
 router.patch('/avatars', upload.single('avatar'), ctrlWrapper(ctrl.userAvatar));
+router.get('/verify/:verificationToken', ctrlWrapper(ctrl.verificationUser));
+router.post('/verify', ctrlWrapper(ctrl.verifiedUserEmail));
 
 
 

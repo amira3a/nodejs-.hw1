@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const gravatar = require('gravatar');
 const path = require('path');
 const Jimp = require('jimp');
+const { verifyUserEmail, emailVerified } = require('../middlewares');
+const  {nanoid} = require('nanoid');
 
 
 
@@ -14,17 +16,22 @@ const Jimp = require('jimp');
       const emailExists = await User.findOne({ email }) !== null;
         if (emailExists) {
         return emailExists;
-        }
+      };
+      
       const hashed = await bcrypt.hash(password, 10);
       const token = jwt.sign({ email }, process.env.JWT_SECRET, {
         expiresIn: '1h',
       });
       const userAvatar = gravatar.profile_url(email);
+      const verificationToken = nanoid();
+      verifyUserEmail(email, verificationToken);
+
       const newUser = await User.create({
         email: email,
         password: hashed,
         token: token,
         avatarURL: userAvatar,
+        verificationToken: verificationToken,
       });
       req.session.userToken = token;
       req.session.userId = newUser._id;
@@ -132,10 +139,59 @@ async function userAvatar(req) {
     };
 }
 
+async function verificationUser(req) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return 'missing email';
+    };
+    const emailExists = await User.findOne({ email: email }) !== null;
+    if (!emailExists) {
+      return 'email not exists'
+    }
+    const verifiedEmail = await User.findOne({ email: email, verify: true }) !== null;
+    if (verifiedEmail) {
+      return 'verified email';
+    };
+    const user = await User.findOne({ email: email })
+    const verificationToken = user.verificationToken
+    verifyUserEmail(email, verificationToken);
+    return 'email sent';
+  } catch (error) {
+    console.log(error.message);
+  };
+}
+
+async function verifiedUserEmail(req) {
+   try {
+    const verificationToken = req.params.verificationToken
+    const user = await User.findOne({ verificationToken: verificationToken });
+    if (!user) {
+      return 'Not Found'
+    };
+    const verifiedEmail = user.verify;
+    if (verifiedEmail) {
+      return 'already verified';
+    };
+    emailVerified(user.email, verificationToken)
+    const verifyUser = await User.findOneAndUpdate(
+      { verificationToken: verificationToken },
+      { $set: { verify: true } },
+      { new: true }
+    );
+    return verifyUser;
+  } catch (error) {
+    console.log(error);
+  };
+}
+
+
 module.exports = {
   signup,
   login,
   logout,
   currentUser,
   userAvatar,
+  verificationUser,
+  verifiedUserEmail,
 };
